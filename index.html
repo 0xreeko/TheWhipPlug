@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Whip Plug</title>
+  <!-- Add Bootstrap and Bootstrap-Vue CSS to the <head> section -->
+  <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.15.0/bootstrap-vue.css" />
+  <!-- Add Vue and BootstrapVue scripts just before the closing head tag-->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-vue/2.15.0/bootstrap-vue.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+</head>
+
+<body>
+  <div id="myapp">
+    <div class="container">
+      <!-- title area -->
+      <div class="text-center">
+        <h1>The Whip Plug</h1>
+        <p>Sourcing the best automatic cars in the market.</p>
+        <button type="button" class="btn btn-disabled" data-toggle="modal" data-target="#exampleModal">
+          Manual
+        </button> *Disabled
+      </div>
+      <br>
+      <!-- search area -->
+      <div class="text-center">
+        <nav class="navbar navbar-light bg-light">
+          <!-- selecting all car records -->
+          <input type="button" value="View All Cars" @click='allCars()'>
+  
+          <!-- car record by ID -->
+          <input type="text" placeholder="Enter Car ID" v-model="car_id">
+          <input type="button" value="Search Car ID" @click='carByID()'>
+      </div>
+      </nav>
+  
+      <table class="table table-light" style="border-collapse: collapse;">
+        <tr>
+          <th>#</th>
+          <th>Brand</th>
+          <th>Title</th>
+          <th>YoM</th>
+          <th>Gearbox</th>
+          <th>Mileage</th>
+          <th>Engine Size</th>
+          <th>Door Number</th>
+          <th>Price</th>
+        </tr>
+  
+        <tr v-for="car in cars">
+          <td>#{{ car.car_id }}</td>
+          <td>{{ car.brand  }}</td>
+          <td>{{car.title}}</td>
+          <td>{{car.yom}}</td>
+          <td>{{car.gearbox}}</td>
+          <td>{{car.mileage}}</td>
+          <td>{{car.engine_size}} Litre</td>
+          <td>{{car.door_number}} Door/s</td>
+          <td>£{{car.price}}</td>
+        </tr>
+      </table>
+      
+    </div>
+  </div>
+  </div>
+
+  <!-- vue script -->
+  <script type="text/javascript">
+    var app = new Vue({
+      el: '#myapp',
+      data: {
+        cars: "",
+        car_id: 0
+      },
+      methods: {
+        allCars: function () {
+          car_id: this.car_id
+          this.car_id = 0
+          axios.get('ajx.php')
+            .then(function (response) {
+              app.cars = response.data
+              // console.log(response)
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        },
+        carByID: function () {
+          if (this.car_id > 0) {
+            axios.get('ajx.php', {
+              params: {
+                car_id: this.car_id
+              }
+            })
+              .then(function (response) {
+                app.cars = response.data;
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

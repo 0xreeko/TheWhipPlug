@@ -1,0 +1,4 @@
+// Ignore a file used to store database configuration details
+conn.php
+.DS_Store
+addCars.html.php
