@@ -1,1 +1,5 @@
 // Ignore a file used to store database configuration details
+addCars.html.php
+conn.php
+.gitignore
+.DS_Store
